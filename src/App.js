@@ -1,26 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
+import { connect } from 'react-redux';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+//function App() {
+class App extends Component{
+  render(){
+    return (
+      <div className="App">
+        <div className="cell">A:<span>{this.props.A}</span><br /><button onClick={()=>this.props.updateA(this.props.B)}>Update A</button></div>
+        <div className="cell">B:<span>{this.props.B}</span><br /><button onClick={()=>this.props.updateB(this.props.A)}>Update B</button></div>
+      </div>
+    );
+  }
 }
 
-export default App;
+const mapStateToProps = (state)=>{
+  console.log(">>>>>>", state);
+  return {
+    A: state.rA.A,
+    B: state.rB.B
+  }
+}
+
+const mapDispachToProps = (dispatch) =>{
+  return {
+    updateA: (val) => dispatch({type:"UPDATE_A", value: val}),
+    updateB: (val) => dispatch({type:"UPDATE_B", value: val})
+  }
+}
+
+export default connect(mapStateToProps,mapDispachToProps)(App);
